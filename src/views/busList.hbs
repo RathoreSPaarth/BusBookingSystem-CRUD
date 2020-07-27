@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Bus Name</th>
+      <th scope="col">From</th>
+      <th scope="col">To</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td><a href="/{{this.id}}">{{this.busName}}</a> </td>
+      <td>{{this.to}}</td>
+      <td>{{this.from}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

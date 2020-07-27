@@ -1,0 +1,84 @@
+<div class="jumbotron">
+  <h1 class="display-4">{{data.busName}}</h1>
+  <p class="lead"> From: {{data.from}} </p>
+  <p class="lead"> To: {{data.to}} </p>
+  <hr class="my-4">
+  <p> Timings: {{data.time}}</p>
+  <p> Type: {{data.type}}</p>
+  <a class="btn btn-primary btn-lg" href="#" role="button"> Price: {{data.price}}</a>
+</div>
+<p style="margin: 2%;">
+  Select the seats and click here on CONFIRM button.
+  <button class="btn btn-primary" onclick="checkBookedSeats()">Confirm</button>
+  <br>
+  Then click on active BOOK SEAT button
+</p>
+<p style="margin: 2%;">
+  Status: false --> Seat is TAKEN
+  <br>
+  Status: true --> Seat is VACANT
+</p>
+
+<div style="width: 50%; margin-left:25%">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#Seat Number</th>
+        <th scope="col">Status</th>
+        <th scope="col">Select Seat</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {{#each busData}}
+      <tr>
+        <th scope="row">{{this.seatNumber}}</th>
+        <td>{{this.status}}</td>
+        {{#if this.status}} <td>
+          <form action="/{{this.busid}}/{{this.seatNumber}}?_method=PUT" method="POST">
+            <input class="check-box" type="checkbox">
+            <input class="btn btn-primary ded-btn" id="book-tickets" type="submit" disabled value="Book Seat"
+              action="/{{this.busid}}/{{this.seatNumber}}?_method=PUT" method="POST" />
+        </td> {{/if}}
+        </form>
+
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+
+{{!-- <input class="btn btn-primary" id="book-tickets" type="submit" disabled value="Confirm Booking" method="PUT"
+    action="/{{currentID}}" /> --}}
+<script>
+  let checkbox = document.getElementsByClassName('check-box')
+  let btn = document.getElementsByClassName('ded-btn')
+  function checkBookedSeats() {
+    let count = 0;
+    let arr = [];
+    for (let i = 0; i < checkbox.length; i++) {
+      checkbox[i].setAttribute('id', `${i}`)
+      btn[i].setAttribute('id', `${i}`)
+      if (checkbox[i].checked == true) {
+        count++;
+        if (count > 2) {
+          alert("You can only select 2 seats");
+        }
+        if (count <= 2) {
+          btn[i].disabled = false;
+        }
+      }
+    }
+    if (count <= 2 && count > 0) {
+      document.getElementById('book-tickets').disabled = false
+    }
+    else {
+      document.getElementById('book-tickets').disabled = true
+    }
+
+  }
+
+
+
+</script>
